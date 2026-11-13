@@ -23,14 +23,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Normalize image name (lowercase)
+            - name: Normalize image name (lowercase)
         id: image
         run: |
           set -euo pipefail
           IMG="$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
           echo "name=$IMG" >> "$GITHUB_OUTPUT"
           echo "LOG: Image: ${{ env.REGISTRY }}/$IMG"
-
       - name: Read current version
         id: version
         run: |
