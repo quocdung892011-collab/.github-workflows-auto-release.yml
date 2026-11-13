@@ -2,7 +2,8 @@ name: Release and Docker Push
 
 on:
   push:
-    branches: ['v3', 'v4
+    branches: ['v3', 'v4']
+    paths:
       - package.json
   workflow_dispatch:
 
@@ -22,13 +23,16 @@ jobs:
         with:
           fetch-depth: 0
 
-            - name: Normalize image name (lowercase)
+      - name: Normalize image name (lowercase)
         id: image
         run: |
           set -euo pipefail
-          IMG="$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
+          OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]' | sed 's/^[._-]*//')"
+          IMG="$OWNER/$REPO"
           echo "name=$IMG" >> "$GITHUB_OUTPUT"
           echo "LOG: Image: ${{ env.REGISTRY }}/$IMG"
+
       - name: Read current version
         id: version
         run: |
