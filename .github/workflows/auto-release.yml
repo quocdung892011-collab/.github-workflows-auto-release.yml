@@ -28,7 +28,7 @@ jobs:
         run: |
           set -euo pipefail
           OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
-          REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]' | sed 's/^[._-]*//')"
+          REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]' | sed 's/^[._-]*//; s/\.yml$//')"
           IMG="$OWNER/$REPO"
           echo "name=$IMG" >> "$GITHUB_OUTPUT"
           echo "LOG: Image: ${{ env.REGISTRY }}/$IMG"
